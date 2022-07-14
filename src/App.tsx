@@ -6,7 +6,7 @@ function startPom(time: number, setTime: Function) {
 }
 
 function getFocusTime(mins: number) {
-  return new Date(Date.now() + mins * 60 * 1000 + 1000);
+  return new Date(Date.now() + mins * 60 * 1000 + 2000); // addition 2sec is offset the setInterval time.
 }
 
 function pomStart(focusTime: Date, setTime: Function) {
