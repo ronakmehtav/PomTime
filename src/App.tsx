@@ -11,26 +11,34 @@ function getFocusTime(mins: number) {
 
 function pomStart(focusTime: Date, setTime: Function) {
   const interval = setInterval(() => {
-    let secLeftIn = Math.floor((focusTime.getTime() - Date.now()) / 1000);
-    if (secLeftIn <= 0) clearInterval(interval);
-    let minsLeftIn = Math.floor(secLeftIn / 60);
-    secLeftIn = secLeftIn % 60;
+    let timeLeftIn = Math.floor((focusTime.getTime() - Date.now()) / 1000);
+    if (timeLeftIn <= 0) clearInterval(interval);
+    let minsLeftIn = Math.floor(timeLeftIn / 60);
+    let secLeftIn = timeLeftIn % 60;
     // console.log(`${minsLeftIn} mins : ${secLeftIn} secs`);
-    const time = new Object({
-      minsLeftIn: minsLeftIn,
-      secLeftIn: secLeftIn,
-    });
+    const time: time = {
+      minsLeftIn,
+      secLeftIn,
+    };
     setTime(time);
   }, 1000);
 }
 
+type time = {
+  minsLeftIn: number;
+  secLeftIn: number;
+};
+
 function App() {
-  const [time, setTime] = useState({ minsLeftIn: 0, secLeftIn: 0 });
+  const [{ minsLeftIn, secLeftIn }, setTime] = useState({
+    minsLeftIn: 0,
+    secLeftIn: 0,
+  } as time);
   return (
     <div className='app'>
       <p>Hello world!</p>
       <div className='timer'>
-        <p>{`${time.minsLeftIn} mins : ${time.secLeftIn} secs`}</p>
+        <p>{`${minsLeftIn} mins : ${secLeftIn} secs`}</p>
       </div>
       <button
         onClick={() => {
