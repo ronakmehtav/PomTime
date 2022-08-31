@@ -43,6 +43,10 @@ function App() {
         mins: 0,
         secs: 6,
     } as time);
+    const [timer, setTimer] = useState({
+        mins: defaultTime.mins,
+        secs: defaultTime.secs,
+    } as time);
     return (
         <div className='app'>
             <div>
@@ -72,15 +76,11 @@ function App() {
                     title='default time secs' min={0} max={60} />
             </div>
             <div className='timer'>
-                <p>{`${defaultTime.mins} mins : ${defaultTime.secs} secs`}</p>
+                <p>{`${timer.mins} mins : ${timer.secs} secs`}</p>
             </div>
             <button
                 disabled={isTimerActive ? true : false}
-                onClick={() => {
-                    if (!isTimerActive) {
-                        startPom(defaultTime, setDefaultTime, setTimerState);
-                    }
-                }}
+                onClick={() => startPom(defaultTime, setTimer, setTimerState)}
             >
                 StartPomTime
             </button>
