@@ -39,7 +39,7 @@ type time = {
 
 function App() {
     const [isTimerActive, setTimerState] = useState(false);
-    const [displayInput, setDisplayInput] = useState(true);
+    const [displayInput, setDisplayInput] = useState(false);
     const [defaultTime, setDefaultTime] = useState({
         mins: 0,
         secs: 6,
