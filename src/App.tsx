@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
 function startPom(time: time, setTime: Function, setTimerState: Function) {
     const focusTime = getFocusTime(time);
@@ -39,6 +39,7 @@ type time = {
 
 function App() {
     const [isTimerActive, setTimerState] = useState(false);
+    const [displayInput, setDisplayInput] = useState(true);
     const [defaultTime, setDefaultTime] = useState({
         mins: 0,
         secs: 6,
@@ -47,43 +48,51 @@ function App() {
         mins: defaultTime.mins,
         secs: defaultTime.secs,
     } as time);
+    useEffect(()=> {
+            setTimer(defaultTime);
+        },[defaultTime])
+
     return (
         <div className='app'>
-            <div>
-                <input type="number" title='default time mins' 
-                    onChange={(e) => {
-                        e.target.value !== '' && e.target.checkValidity() &&
-                            setDefaultTime(
-                            { 
-                                mins: Number.parseInt(e.target.value),
-                                secs: defaultTime.secs,
-                            })
+            {displayInput &&
+                <div>
+                    <input type="number" title='default time mins'
+                        onChange={(e) => {
+                            e.target.value !== '' && e.target.checkValidity() &&
+                                setDefaultTime(
+                              {
+                                        mins: Number.parseInt(e.target.value),
+                                        secs: defaultTime.secs,
+                                })
                         }
-                    }
-                defaultValue={defaultTime.mins} min={0} />
-                :
-                <input type="number" defaultValue={defaultTime.secs}
-                    required
-                    onChange={(e) => {
-                        e.target.value !== '' && e.target.checkValidity() &&
-                            setDefaultTime(
-                            { 
-                                mins: defaultTime.mins, 
-                                secs: Number.parseInt(e.target.value) 
-                            })
                         }
-                    }
-                    title='default time secs' min={0} max={60} />
+                        defaultValue={defaultTime.mins} min={0} />
+                    :
+                    <input type="number" defaultValue={defaultTime.secs}
+                        required
+                        onChange={(e) => {
+                            e.target.value !== '' && e.target.checkValidity() &&
+                                setDefaultTime(
+                                    {
+                                        mins: defaultTime.mins,
+                                        secs: Number.parseInt(e.target.value)
+                                    })
+                        }
+                        }
+                        title='default time secs' min={0} max={60} />
+                    <button onClick={() => setDisplayInput(false)}>go to timer</button>
+                </div>
+            }
+            {!displayInput && <div className='timer'>
+                <p onDoubleClick={()=>setDisplayInput(true)}>{`${timer.mins} mins : ${timer.secs} secs`}</p>
+                <button
+                    disabled={isTimerActive ? true : false}
+                    onClick={() => startPom(defaultTime, setTimer, setTimerState)}
+                >
+                    StartPomTime
+                </button>
             </div>
-            <div className='timer'>
-                <p>{`${timer.mins} mins : ${timer.secs} secs`}</p>
-            </div>
-            <button
-                disabled={isTimerActive ? true : false}
-                onClick={() => startPom(defaultTime, setTimer, setTimerState)}
-            >
-                StartPomTime
-            </button>
+            }
         </div>
     );
 }
